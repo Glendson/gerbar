@@ -12,38 +12,31 @@ Validate that the application can manage restaurant table consumption with a sma
 
 ## Manual Validation Scenarios
 
-### 1. Open the main board and access a table
+### 1. Open a table
 1. Open the app.
-2. Confirm that the active tables are displayed as large square blocks on the main board.
-3. Open a table by tapping the square representing the customer.
-4. Confirm that a modal or detail panel opens with the customer name, item list, and current total.
+2. Enter a customer name.
+3. Create a new table.
+4. Confirm that the table appears in the open list with the customer name and an initial total of zero.
 
-### 2. Register a product via modal
-1. Use the dedicated product button from the main interface.
-2. Open the product-registration modal.
-3. Enter a product name and a price in euro.
-4. Confirm that the product is stored and becomes available to the active table flow.
+### 2. Add products to a table
+1. Register at least one product in the product catalog.
+2. Open a table.
+3. Add one or more products with quantities.
+4. Confirm that the table total updates immediately.
 
-### 3. Add products to a table
-1. Select an active table from the board.
-2. Add one or more products with quantities through the touch-first action area.
-3. Confirm that the table total updates immediately and the modal reflects the newly added items.
-
-### 4. Adjust quantities and mark items as paid
+### 3. Adjust quantities and mark items as paid
 1. Increase or decrease the quantity of an item.
 2. Mark a specific item as paid.
 3. Confirm that the total reflects the current state and the item remains in the table history.
 
-### 5. Close a table and review separated history
-1. Close a table from its detail modal.
-2. Confirm that the table disappears from the main operating board.
-3. Open the daily history view and confirm the closed table appears there.
-4. Open the monthly history view and confirm that the reporting is separate from the daily flow.
+### 4. Close a table
+1. Mark the table as closed.
+2. Confirm the table status changes from open to closed.
 
-### 6. Reopen from history
-1. Find a closed table in the daily history view.
-2. Use the reopen action from that historical entry.
-3. Confirm that the table returns to the active board and can continue being managed normally.
+### 5. Query history
+1. Use the daily history view.
+2. Switch to the monthly history view.
+3. Confirm that the recorded activity is visible for the current period.
 
 ## Expected Outcome
 

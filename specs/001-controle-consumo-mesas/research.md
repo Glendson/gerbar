@@ -26,7 +26,41 @@
 - Supabase or another hosted database: rejected for now because the user asked to avoid separate databases in this version.
 - IndexedDB: not necessary for the initial dataset size and complexity.
 
-### Decision 3: Validation approach
+### Decision 3: Touch-first board shape
+- Represent active tables as square touch blocks on the main board, not as long list items.
+
+### Rationale
+- Large square blocks reduce friction for staff operating on phones and tablets.
+- The board becomes easier to scan during peak service and clearly communicates the table-action area.
+
+### Alternatives considered
+- Dense list layout: rejected because it is less touch-friendly and more cluttered.
+- Card grid with rounded shapes only: kept as an option, but square blocks align better with the restaurant workflow and short service actions.
+
+### Decision 4: Interaction model
+- Use a modal for table detail and another modal for product registration, both launched through explicit buttons or touch targets.
+
+### Rationale
+- This keeps the primary screen focused on the current service day and avoids hidden navigation.
+- Modals support a clean, low-complexity flow for the most common admin actions.
+
+### Alternatives considered
+- Multi-page navigation: rejected because it adds more taps and mental overhead.
+- Inline drawer on the same screen: possible, but modal separation is clearer and more compact for a touch-first app.
+
+### Decision 5: Currency and history behavior
+- Use euro throughout the interface and keep daily history separate from monthly history.
+- Closed tables should move out of the main board into the historical views and be re-openable from the historical record.
+
+### Rationale
+- The product is intended for Portugal, so euro matches the expected operational context.
+- History separation keeps the main board cleaner while preserving a reviewable record of completed service.
+
+### Alternatives considered
+- Mixed currency display or local fallback formatting: rejected because it adds unnecessary ambiguity.
+- Reopening from the main board: rejected because closed tables should not clutter the working board.
+
+### Decision 6: Validation approach
 - Use manual validation directly in the running interface instead of automated tests.
 
 ### Rationale

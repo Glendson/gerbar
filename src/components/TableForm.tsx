@@ -20,26 +20,25 @@ export const TableForm = ({ onOpenTable }: TableFormProps) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="rounded-2xl border border-slate-800 bg-slate-900 p-4">
-      <div className="mb-3">
-        <h2 className="text-lg font-semibold">Abrir mesa</h2>
-        <p className="text-sm text-slate-400">Digite o nome do cliente para criar a comanda.</p>
+    <form onSubmit={handleSubmit} className="panel">
+      <div className="panel-header">
+        <div>
+          <h2 className="panel-title">Abrir mesa</h2>
+          <p className="panel-copy">Digite o nome do cliente para criar a comanda.</p>
+        </div>
       </div>
 
-      <div className="flex flex-col gap-3 md:flex-row">
+      <div className="flex flex-col gap-3 md:flex-row md:items-end">
         <label className="flex-1">
-          <span className="mb-1 block text-sm text-slate-300">Nome do cliente</span>
+          <span className="field-label">Nome do cliente</span>
           <input
             value={customerName}
             onChange={(event) => setCustomerName(event.target.value)}
-            className="w-full rounded-xl border border-slate-700 bg-slate-800 px-3 py-2 text-slate-50 outline-none focus:border-violet-400"
+            className="field-input"
             placeholder="Ex.: Maria Silva"
           />
         </label>
-        <button
-          type="submit"
-          className="rounded-xl bg-violet-500 px-4 py-2 font-medium text-white transition hover:bg-violet-400"
-        >
+        <button type="submit" className="primary-button md:min-w-[180px]">
           Abrir mesa
         </button>
       </div>

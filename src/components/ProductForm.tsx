@@ -24,37 +24,39 @@ export const ProductForm = ({ onRegisterProduct }: ProductFormProps) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="rounded-2xl border border-slate-800 bg-slate-900 p-4">
-      <div className="mb-3">
-        <h2 className="text-lg font-semibold">Cadastrar produto</h2>
-        <p className="text-sm text-slate-400">Registre o item para usá-lo em qualquer mesa.</p>
+    <form onSubmit={handleSubmit} className="panel">
+      <div className="panel-header">
+        <div>
+          <h2 className="panel-title">Cadastrar produto</h2>
+          <p className="panel-copy">Registre o item para usá-lo em qualquer mesa.</p>
+        </div>
       </div>
 
       <div className="grid gap-3 md:grid-cols-2">
         <label>
-          <span className="mb-1 block text-sm text-slate-300">Nome</span>
+          <span className="field-label">Nome</span>
           <input
             value={name}
             onChange={(event) => setName(event.target.value)}
-            className="w-full rounded-xl border border-slate-700 bg-slate-800 px-3 py-2 outline-none focus:border-violet-400"
+            className="field-input"
             placeholder="Ex.: Feijoada"
           />
         </label>
         <label>
-          <span className="mb-1 block text-sm text-slate-300">Preço</span>
+          <span className="field-label">Preço</span>
           <input
             value={price}
             onChange={(event) => setPrice(event.target.value)}
             type="number"
             step="0.01"
             min="0"
-            className="w-full rounded-xl border border-slate-700 bg-slate-800 px-3 py-2 outline-none focus:border-violet-400"
+            className="field-input"
             placeholder="0.00"
           />
         </label>
       </div>
 
-      <button type="submit" className="mt-3 rounded-xl bg-emerald-500 px-4 py-2 font-medium text-slate-950 transition hover:bg-emerald-400">
+      <button type="submit" className="primary-button mt-3 w-full md:w-auto">
         Salvar produto
       </button>
     </form>

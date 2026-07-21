@@ -1,3 +1,5 @@
+import { EmptyState } from '../design-system/components/EmptyState';
+import { StatusBadge } from '../design-system/components/StatusBadge';
 import { ProductRecord } from '../features/products/types';
 import { TableRecord } from '../features/tables/types';
 import { getProductName, getTableItemSubtotal, toCurrency } from '../lib/state';
@@ -16,63 +18,61 @@ interface TableDetailProps {
 export const TableDetail = ({ table, products, onUpdateItem, onToggleClosed }: TableDetailProps) => {
   if (!table) {
     return (
-      <div className="rounded-2xl border border-slate-800 bg-slate-900 p-4 text-slate-400">
-        Abra uma mesa para começar a comanda.
+      <div className="panel">
+        <EmptyState title="Abra uma mesa para começar" description="A comanda ativa aparece aqui com itens, preços e ações de fechamento." />
       </div>
     );
   }
 
   return (
-    <div className="rounded-2xl border border-slate-800 bg-slate-900 p-4">
-      <div className="mb-3 flex items-start justify-between gap-3">
+    <div className="panel">
+      <div className="panel-header">
         <div>
-          <p className="text-xs uppercase tracking-[0.3em] text-violet-300">Mesa selecionada</p>
-          <h2 className="text-xl font-semibold">{table.customerName}</h2>
+          <p className="panel-kicker">Mesa selecionada</p>
+          <h2 className="panel-title">{table.customerName}</h2>
         </div>
-        <button
-          type="button"
-          onClick={() => onToggleClosed(table.id)}
-          className="rounded-lg bg-slate-800 px-3 py-2 text-sm font-medium text-slate-100"
-        >
+        <button type="button" onClick={() => onToggleClosed(table.id)} className="secondary-button">
           {table.status === 'open' ? 'Fechar mesa' : 'Reabrir mesa'}
         </button>
       </div>
 
-      <div className="mb-3 rounded-xl bg-slate-800/80 p-3">
-        <p className="text-sm text-slate-300">Status: {table.status === 'open' ? 'Aberta' : 'Fechada'}</p>
-        <p className="text-sm text-slate-300">Total atual: {toCurrency(table.total)}</p>
+      <div className="surface-tile mb-3">
+        <div className="flex flex-wrap items-center gap-2">
+          <StatusBadge tone={table.status === 'open' ? 'positive' : 'warning'}>{table.status === 'open' ? 'Aberta' : 'Fechada'}</StatusBadge>
+          <span className="text-sm text-slate-300">Total atual: {toCurrency(table.total)}</span>
+        </div>
       </div>
 
-      <div className="space-y-2">
+      <div className="space-y-2.5">
         {table.items.map((item) => (
-          <div key={item.id} className="rounded-xl border border-slate-800 bg-slate-800/80 p-3">
+          <div key={item.id} className="surface-tile">
             <div className="flex items-center justify-between gap-2">
               <div>
-                <p className="font-medium">{getProductName(item.productId, products)}</p>
+                <p className="text-base font-semibold text-slate-50">{getProductName(item.productId, products)}</p>
                 <p className="text-xs text-slate-400">{toCurrency(item.unitPrice)} · {item.quantity} unidade(s)</p>
               </div>
-              <p className="font-semibold">{toCurrency(getTableItemSubtotal(item))}</p>
+              <p className="text-base font-semibold text-slate-50">{toCurrency(getTableItemSubtotal(item))}</p>
             </div>
 
             <div className="mt-3 flex flex-wrap gap-2">
               <button
                 type="button"
                 onClick={() => onUpdateItem(table.id, item.id, (current) => ({ ...current, quantity: Math.max(1, current.quantity - 1) }))}
-                className="rounded-lg bg-slate-700 px-2.5 py-1 text-sm"
+                className="secondary-button px-2.5 py-1"
               >
                 -
               </button>
               <button
                 type="button"
                 onClick={() => onUpdateItem(table.id, item.id, (current) => ({ ...current, quantity: current.quantity + 1 }))}
-                className="rounded-lg bg-slate-700 px-2.5 py-1 text-sm"
+                className="secondary-button px-2.5 py-1"
               >
                 +
               </button>
               <button
                 type="button"
                 onClick={() => onUpdateItem(table.id, item.id, (current) => ({ ...current, paid: !current.paid }))}
-                className="rounded-lg bg-emerald-500 px-3 py-1 text-sm font-medium text-slate-950"
+                className="rounded-2xl bg-emerald-500 px-3 py-1 text-sm font-semibold text-slate-950 transition hover:bg-emerald-400"
               >
                 {item.paid ? 'Marcar pendente' : 'Marcar pago'}
               </button>

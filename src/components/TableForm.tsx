@@ -1,4 +1,4 @@
-import { FormEvent, useState } from 'react';
+import { useState } from 'react';
 
 interface TableFormProps {
   onOpenTable: (customerName: string) => void;
@@ -7,41 +7,41 @@ interface TableFormProps {
 export const TableForm = ({ onOpenTable }: TableFormProps) => {
   const [customerName, setCustomerName] = useState('');
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    const cleanedName = customerName.trim();
-    if (!cleanedName) {
-      return;
-    }
-
-    onOpenTable(cleanedName);
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!customerName.trim()) return;
+    onOpenTable(customerName.trim());
     setCustomerName('');
   };
 
   return (
-    <form onSubmit={handleSubmit} className="panel">
+    <div className="panel">
       <div className="panel-header">
         <div>
-          <h2 className="panel-title">Abrir mesa</h2>
-          <p className="panel-copy">Digite o nome do cliente para criar a comanda.</p>
+          <span className="panel-kicker">Mesa / Comanda</span>
+          <h2 className="panel-title">Abrir Nova Mesa</h2>
         </div>
       </div>
 
-      <div className="flex flex-col gap-3 md:flex-row md:items-end">
-        <label className="flex-1">
-          <span className="field-label">Nome do cliente</span>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+        <div>
+          <label className="field-label">Nome do Cliente / Mesa</label>
           <input
+            type="text"
+            placeholder="Ex: João Silva ou Mesa 05"
             value={customerName}
-            onChange={(event) => setCustomerName(event.target.value)}
+            onChange={(e) => setCustomerName(e.target.value)}
             className="field-input"
-            placeholder="Ex.: Maria Silva"
           />
-        </label>
-        <button type="submit" className="primary-button md:min-w-[180px]">
-          Abrir mesa
+        </div>
+        <button
+          type="submit"
+          disabled={!customerName.trim()}
+          className="primary-button"
+        >
+          + Abrir Mesa
         </button>
-      </div>
-    </form>
+      </form>
+    </div>
   );
 };

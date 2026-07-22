@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { EmptyState } from '../design-system/components/EmptyState';
 import { StatusBadge } from '../design-system/components/StatusBadge';
 import { ProductRecord } from '../features/products/types';
@@ -16,6 +17,8 @@ interface TableDetailProps {
 }
 
 export const TableDetail = ({ table, products, onUpdateItem, onToggleClosed }: TableDetailProps) => {
+  const [confirmingClose, setConfirmingClose] = useState(false);
+
   if (!table) {
     return (
       <div className="panel">
@@ -24,6 +27,22 @@ export const TableDetail = ({ table, products, onUpdateItem, onToggleClosed }: T
     );
   }
 
+  const handleToggleClick = () => {
+    // Se a mesa estiver aberta e ainda não estivermos no modo de confirmação, ativa a pergunta
+    if (table.status === 'open' && !confirmingClose) {
+      setConfirmingClose(true);
+      return;
+    }
+
+    // Executa o fechamento/reabertura e reseta o estado
+    onToggleClosed(table.id);
+    setConfirmingClose(false);
+  };
+
+  const handleCancelClose = () => {
+    setConfirmingClose(false);
+  };
+
   return (
     <div className="panel">
       <div className="panel-header">
@@ -31,14 +50,52 @@ export const TableDetail = ({ table, products, onUpdateItem, onToggleClosed }: T
           <p className="panel-kicker">Mesa selecionada</p>
           <h2 className="panel-title">{table.customerName}</h2>
         </div>
-        <button type="button" onClick={() => onToggleClosed(table.id)} className="secondary-button">
-          {table.status === 'open' ? 'Fechar mesa' : 'Reabrir mesa'}
-        </button>
+
+        {/* Ação no Header: Confirmação em duas etapas para fechar a mesa */}
+        {table.status === 'open' ? (
+          confirmingClose ? (
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-bold text-red-400">Fechar mesa?</span>
+              <button
+                type="button"
+                onClick={handleCancelClose}
+                className="secondary-button px-3 py-1.5 text-xs"
+              >
+                Cancelar
+              </button>
+              <button
+                type="button"
+                onClick={handleToggleClick}
+                className="rounded-xl bg-red-600 px-3 py-1.5 text-xs font-black text-white hover:bg-red-500 shadow-md shadow-red-600/20 active:scale-95 transition-all cursor-pointer"
+              >
+                Sim, fechar
+              </button>
+            </div>
+          ) : (
+            <button
+              type="button"
+              onClick={handleToggleClick}
+              className="rounded-xl border border-red-500/30 bg-red-950/20 px-4 py-2 text-xs font-bold text-red-400 hover:bg-red-600 hover:text-white transition-all active:scale-95 cursor-pointer"
+            >
+              Fechar mesa
+            </button>
+          )
+        ) : (
+          <button
+            type="button"
+            onClick={handleToggleClick}
+            className="secondary-button"
+          >
+            Reabrir mesa
+          </button>
+        )}
       </div>
 
       <div className="surface-tile mb-3">
         <div className="flex flex-wrap items-center gap-2">
-          <StatusBadge tone={table.status === 'open' ? 'positive' : 'warning'}>{table.status === 'open' ? 'Aberta' : 'Fechada'}</StatusBadge>
+          <StatusBadge tone={table.status === 'open' ? 'positive' : 'warning'}>
+            {table.status === 'open' ? 'Aberta' : 'Fechada'}
+          </StatusBadge>
           <span className="text-sm text-slate-300">Total atual: {toCurrency(table.total)}</span>
         </div>
       </div>
